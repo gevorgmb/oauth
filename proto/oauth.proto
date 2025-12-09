@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package oauth;
+
+option go_package = "oauth/proto";
+
+enum SortOrder {
+    ASC = 0;
+    DESC = 1;
+}
+
+service OAuth {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+
+    rpc Token(TokenRequest) returns (TokenResponse);
+
+    rpc Verify(VerifyRequest) returns (VerifyResponse);
+
+    rpc Refresh(RefreshRequest) returns (TokenResponse);
+
+    rpc FetchList(FetchListRequest) returns (FetchListResponse);
+
+    rpc DeleteUser(DeleteUsreRequest) returns (DeleteUserResponse);
+}
+
+message UserItem {
+    int64 id = 1;
+    string email = 2;
+    string full_name = 3;
+    string phone = 4;
+    string birthday = 5;
+    string created = 6;
+    string role = 7;
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+    string full_name = 3;
+    string phone = 4;
+    string birthday = 5;
+}
+
+message RegisterResponse {
+    bool ok = 1;
+    string message = 2;
+}
+
+message TokenRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message TokenResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    int64 expires_in = 3;
+}
+
+message RefreshRequest {
+    string refresh_token = 1;
+}
+
+message VerifyRequest {
+    string access_token = 1;
+}
+
+message VerifyResponse {
+    bool valid = 1;
+    string email = 2;
+    int64 exp = 3;
+}
+
+message FetchListRequest {
+    string filter = 1;
+    int32 page_size = 2;
+    int32 page_number = 3;
+    SortOrder order = 5;
+}
+
+message FetchListResponse {
+    repeated UserItem items = 1;
+    int64 total_count = 2;
+    int64 total_pages = 3;
+    int64 page_number = 5;
+}
+
+message DeleteUsreRequest {
+    int64 id = 1;
+}
+
+message DeleteUserResponse {
+    bool success = 1;
+    string message = 2;
+}
