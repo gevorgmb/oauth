@@ -18,7 +18,7 @@ type MySQL struct {
 func NewMySQL(conData *dto.MySQLConnectionDto) (*MySQL, error) {
 	db, err := sql.Open("mysql", conData.Dns)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(conData.Dns + err.Error())
 	}
 
 	//ToDo: Move constants to ENV file
@@ -29,35 +29,10 @@ func NewMySQL(conData *dto.MySQLConnectionDto) (*MySQL, error) {
 	if err := db.Ping(); err != nil {
 		return nil, err
 	}
-
-	if err := migrate(db); err != nil {
-		return nil, err
-	}
 	return &MySQL{db: db}, nil
 }
 
 func (s *MySQL) Close() error { return s.db.Close() }
-
-func migrate(db *sql.DB) error {
-	_, err := db.Exec(`DROP TABLE IF EXISTS users;`)
-	if err != nil {
-		return err
-	}
-	_, err = db.Exec(`
-	CREATE TABLE IF NOT EXISTS users (
-		id INT AUTO_INCREMENT PRIMARY KEY,
-		email VARCHAR(255) UNIQUE NOT NULL,
-		full_name VARCHAR(255),
-		phone VARCHAR(50),
-		birthday DATETIME,
-		role varchar(50) NOT NULL DEFAULT 'user',
-		password_hash VARCHAR(255) NOT NULL,
-		created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-	`)
-	return err
-}
 
 func (s *MySQL) AddUser(user *entity.User) error {
 	dateLayout := "2006-01-02"

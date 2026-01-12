@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load()
+	_ = godotenv.Load(".env")
 	addr := getenv("GRPC_ADDR", "0.0.0.0:50051")
 	dnsStr := getenv("DB_DNS", "local_root:123456@tcp(localhost:3306)/oauthdb?parseTime=true")
 
@@ -46,7 +46,7 @@ func main() {
 
 	store, err := storage.NewMySQL(mySQLData)
 	if err != nil {
-		log.Fatalf("failed to reate server: %v", err)
+		log.Fatalf("failed to reate server: %v error %v", mySQLData.Dns, err)
 	}
 
 	srv, err := server.NewServer(store)
