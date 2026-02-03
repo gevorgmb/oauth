@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 	"net"
-	"oauth/internal/dto"
-	"oauth/internal/server"
-	"oauth/internal/storage"
 	"os"
 	"strconv"
 
+	"github.com/gevorgmb/oauth/internal/dto"
+	"github.com/gevorgmb/oauth/internal/server"
+	"github.com/gevorgmb/oauth/internal/storage"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )

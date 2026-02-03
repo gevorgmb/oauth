@@ -2,24 +2,31 @@ syntax = "proto3";
 
 package oauth;
 
-option go_package = "oauth/proto";
+option go_package = "github.com/gevorgmb/oauth/proto/internal/pb;pb";
 
 enum SortOrder {
     ASC = 0;
     DESC = 1;
 }
 
+//OAuth servcie 
 service OAuth {
+    //Register RPC add new users
     rpc Register(RegisterRequest) returns (RegisterResponse);
 
+    // Token RPC returns token by email and password
     rpc Token(TokenRequest) returns (TokenResponse);
 
+    // Verify RPC verfy requested token
     rpc Verify(VerifyRequest) returns (VerifyResponse);
 
+    // Refresh token when epired by refresh-token
     rpc Refresh(RefreshRequest) returns (TokenResponse);
 
+    // FetchList RPC returns paginated list of users, requiers ADMIN permissions
     rpc FetchList(FetchListRequest) returns (FetchListResponse);
 
+    // DeleteUser RPC deletes requested user, requiers ADMIN permissions
     rpc DeleteUser(DeleteUsreRequest) returns (DeleteUserResponse);
 }
 

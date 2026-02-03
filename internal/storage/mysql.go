@@ -3,9 +3,9 @@ package storage
 import (
 	"database/sql"
 	"errors"
+	"github.com/gevorgmb/oauth/internal/dto"
+	"github.com/gevorgmb/oauth/internal/entity"
 	"log"
-	"oauth/internal/dto"
-	"oauth/internal/entity"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"

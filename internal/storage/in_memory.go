@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"oauth/internal/entity"
+	"github.com/gevorgmb/oauth/internal/entity"
 	"sync"
 )
 

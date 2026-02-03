@@ -3,12 +3,12 @@ package server
 import (
 	"context"
 	"errors"
-	"oauth/internal/entity"
-	jwtutil "oauth/internal/jwt"
-	pb "oauth/internal/pb/proto"
-	"oauth/internal/storage"
+	jwtutil "github.com/gevorgmb/oauth/internal/jwt"
+	pb "github.com/gevorgmb/oauth/internal/pb/proto"
+	"github.com/gevorgmb/oauth/internal/storage"
 	"time"
 
+	"github.com/gevorgmb/oauth/internal/entity"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 )

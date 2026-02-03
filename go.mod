@@ -1,4 +1,4 @@
-module oauth
+module github.com/gevorgmb/oauth
 
 go 1.25.0
 
