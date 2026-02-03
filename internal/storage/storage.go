@@ -2,7 +2,7 @@ package storage
 
 import (
 	"errors"
-	"oauth/internal/entity"
+	"github.com/gevorgmb/oauth/internal/entity"
 )
 
 var (
