@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 	"errors"
+	pb "github.com/gevorgmb/oauth/api/v1/pb/proto"
 	jwtutil "github.com/gevorgmb/oauth/internal/jwt"
-	pb "github.com/gevorgmb/oauth/internal/pb/proto"
 	"github.com/gevorgmb/oauth/internal/storage"
 	"time"
 
