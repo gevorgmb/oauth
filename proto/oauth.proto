@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package oauth;
 
-option go_package = "github.com/gevorgmb/oauth/proto/internal/pb/proto;oauthpb";
+option go_package = "github.com/gevorgmb/oauth/proto/api/v1/pb/proto;oauthpb";
 
 enum SortOrder {
     ASC = 0;
