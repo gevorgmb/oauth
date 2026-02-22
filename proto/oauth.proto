@@ -75,7 +75,8 @@ message VerifyRequest {
 message VerifyResponse {
     bool valid = 1;
     string email = 2;
-    int64 exp = 3;
+    string name = 3;
+    int64 exp = 4;
 }
 
 message FetchListRequest {

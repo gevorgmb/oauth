@@ -38,12 +38,13 @@ func getenv(k string, def string) string {
 	return v
 }
 
-func (m *Manager) GenerateAccessToken(email string, role string) (string, int64, error) {
+func (m *Manager) GenerateAccessToken(email string, role string, name string) (string, int64, error) {
 	now := time.Now()
 	exp := now.Add(m.accTTL).Unix()
 	claims := jwt.MapClaims{
 		"sub":  email,
 		"role": role,
+		"name": name,
 		"exp":  exp,
 		"iat":  now.Unix(),
 		"typ":  "access",

@@ -18,7 +18,7 @@ A minimal example OAuth-like gRPC service in Go. This repo provides:
 
 
 ```bash
-protoc --go_out=paths=source_relative:internal/pb --go-grpc_out=paths=source_relative:internal/pb proto/oauth.proto
+protoc --go_out=paths=source_relative:api/v1/pb --go-grpc_out=paths=source_relative:api/v1/pb proto/oauth.proto
 ```
 
 

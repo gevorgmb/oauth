@@ -4,7 +4,7 @@
 // 	protoc        v3.21.12
 // source: proto/oauth.proto
 
-package proto
+package oauthpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -491,7 +491,8 @@ type VerifyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Valid         bool                   `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Exp           int64                  `protobuf:"varint,3,opt,name=exp,proto3" json:"exp,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Exp           int64                  `protobuf:"varint,4,opt,name=exp,proto3" json:"exp,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -536,6 +537,13 @@ func (x *VerifyResponse) GetValid() bool {
 func (x *VerifyResponse) GetEmail() string {
 	if x != nil {
 		return x.Email
+	}
+	return ""
+}
+
+func (x *VerifyResponse) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -812,11 +820,12 @@ const file_proto_oauth_proto_rawDesc = "" +
 	"\x0eRefreshRequest\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"2\n" +
 	"\rVerifyRequest\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"N\n" +
+	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"b\n" +
 	"\x0eVerifyResponse\x12\x14\n" +
 	"\x05valid\x18\x01 \x01(\bR\x05valid\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12\x10\n" +
-	"\x03exp\x18\x03 \x01(\x03R\x03exp\"\x90\x01\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x10\n" +
+	"\x03exp\x18\x04 \x01(\x03R\x03exp\"\x90\x01\n" +
 	"\x10FetchListRequest\x12\x16\n" +
 	"\x06filter\x18\x01 \x01(\tR\x06filter\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1f\n" +
@@ -846,7 +855,7 @@ const file_proto_oauth_proto_rawDesc = "" +
 	"\aRefresh\x12\x15.oauth.RefreshRequest\x1a\x14.oauth.TokenResponse\x12>\n" +
 	"\tFetchList\x12\x17.oauth.FetchListRequest\x1a\x18.oauth.FetchListResponse\x12A\n" +
 	"\n" +
-	"DeleteUser\x12\x18.oauth.DeleteUsreRequest\x1a\x19.oauth.DeleteUserResponseB\rZ\voauth/protob\x06proto3"
+	"DeleteUser\x12\x18.oauth.DeleteUsreRequest\x1a\x19.oauth.DeleteUserResponseB9Z7github.com/gevorgmb/oauth/proto/api/v1/pb/proto;oauthpbb\x06proto3"
 
 var (
 	file_proto_oauth_proto_rawDescOnce sync.Once
