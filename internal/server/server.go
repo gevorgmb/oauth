@@ -72,7 +72,7 @@ func (s *oauthServer) Token(ctx context.Context, req *pb.TokenRequest) (*pb.Toke
 	if err := bcrypt.CompareHashAndPassword(u.PasswordHash, []byte(req.Password)); err != nil {
 		return nil, err
 	}
-	access, exp, err := s.jwtManager.GenerateAccessToken(u.Email, u.Role)
+	access, exp, err := s.jwtManager.GenerateAccessToken(u.Email, u.Role, u.FullName)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,8 @@ func (s *oauthServer) Refresh(ctx context.Context, req *pb.RefreshRequest) (*pb.
 	}
 	sub, _ := claims["sub"].(string)
 	role, _ := claims["role"].(string)
-	access, exp, err := s.jwtManager.GenerateAccessToken(sub, role)
+	name, _ := claims["name"].(string)
+	access, exp, err := s.jwtManager.GenerateAccessToken(sub, role, name)
 	if err != nil {
 		return nil, err
 	}
@@ -125,9 +126,11 @@ func (s *oauthServer) Verify(ctx context.Context, req *pb.VerifyRequest) (*pb.Ve
 	}
 	sub, _ := claims["sub"].(string)
 	expF, _ := claims["exp"].(float64)
+	name, _ := claims["name"].(string)
 	return &pb.VerifyResponse{
 		Valid: true,
 		Email: sub,
+		Name:  name,
 		Exp:   int64(expF),
 	}, nil
 }

@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: proto/oauth.proto
 
-package proto
+package oauthpb
 
 import (
 	context "context"
@@ -30,12 +30,20 @@ const (
 // OAuthClient is the client API for OAuth service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// OAuth servcie
 type OAuthClient interface {
+	// Register RPC add new users
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	// Token RPC returns token by email and password
 	Token(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenResponse, error)
+	// Verify RPC verfy requested token
 	Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
+	// Refresh token when epired by refresh-token
 	Refresh(ctx context.Context, in *RefreshRequest, opts ...grpc.CallOption) (*TokenResponse, error)
+	// FetchList RPC returns paginated list of users, requiers ADMIN permissions
 	FetchList(ctx context.Context, in *FetchListRequest, opts ...grpc.CallOption) (*FetchListResponse, error)
+	// DeleteUser RPC deletes requested user, requiers ADMIN permissions
 	DeleteUser(ctx context.Context, in *DeleteUsreRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 }
 
@@ -110,12 +118,20 @@ func (c *oAuthClient) DeleteUser(ctx context.Context, in *DeleteUsreRequest, opt
 // OAuthServer is the server API for OAuth service.
 // All implementations must embed UnimplementedOAuthServer
 // for forward compatibility.
+//
+// OAuth servcie
 type OAuthServer interface {
+	// Register RPC add new users
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	// Token RPC returns token by email and password
 	Token(context.Context, *TokenRequest) (*TokenResponse, error)
+	// Verify RPC verfy requested token
 	Verify(context.Context, *VerifyRequest) (*VerifyResponse, error)
+	// Refresh token when epired by refresh-token
 	Refresh(context.Context, *RefreshRequest) (*TokenResponse, error)
+	// FetchList RPC returns paginated list of users, requiers ADMIN permissions
 	FetchList(context.Context, *FetchListRequest) (*FetchListResponse, error)
+	// DeleteUser RPC deletes requested user, requiers ADMIN permissions
 	DeleteUser(context.Context, *DeleteUsreRequest) (*DeleteUserResponse, error)
 	mustEmbedUnimplementedOAuthServer()
 }
