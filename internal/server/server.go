@@ -48,7 +48,7 @@ func (s *oauthServer) Register(ctx context.Context, req *pb.RegisterRequest) (*p
 	if err != nil {
 		return &pb.RegisterResponse{}, err
 	}
-	user.Phone = req.Phone
+	user.SetPhone(req.Phone)
 	if err := s.store.AddUser(user); err != nil {
 		if errors.Is(err, storage.ErrUserExists) {
 			return &pb.RegisterResponse{

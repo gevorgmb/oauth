@@ -44,8 +44,8 @@ message RegisterRequest {
     string email = 1;
     string password = 2;
     string full_name = 3;
-    string phone = 4;
-    string birthday = 5;
+    optional string phone = 4;
+    optional string birthday = 5;
 }
 
 message RegisterResponse {
