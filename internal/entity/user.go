@@ -36,12 +36,20 @@ func (u *User) SetFullName(fullName string) {
 	u.FullName = fullName
 }
 
-func (u *User) SetPhone(phone string) {
-	u.Phone = phone
+func (u *User) SetPhone(phone *string) {
+	if phone == nil {
+		u.Phone = ""
+		return
+	}
+	u.Phone = *phone
 }
 
-func (u *User) SetBirthday(birthday string) error {
-	t, err := time.Parse(DateLayout, birthday)
+func (u *User) SetBirthday(birthday *string) error {
+	if birthday == nil {
+		u.Birthday = nil
+		return nil
+	}
+	t, err := time.Parse(DateLayout, *birthday)
 	if err != nil {
 		return errors.New("incorrect date format" + err.Error())
 	}

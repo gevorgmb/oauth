@@ -35,14 +35,19 @@ func NewMySQL(conData *dto.MySQLConnectionDto) (*MySQL, error) {
 func (s *MySQL) Close() error { return s.db.Close() }
 
 func (s *MySQL) AddUser(user *entity.User) error {
-	dateLayout := "2006-01-02"
+	var birthday *string
+	if user.Birthday != nil {
+		dateLayout := "2006-01-02"
+		bday := user.Birthday.Format(dateLayout)
+		birthday = &bday
+	}
 	_, err := s.db.Exec(
 		`INSERT INTO users (email, full_name, password_hash, phone, birthday) VALUES (?, ?, ?, ?, ?)`,
 		user.Email,
 		user.FullName,
 		user.PasswordHash,
 		user.Phone,
-		user.Birthday.Format(dateLayout),
+		birthday,
 	)
 	if err != nil {
 		if errors.Is(err, ErrUserExists) {
