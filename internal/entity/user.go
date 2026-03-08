@@ -45,7 +45,7 @@ func (u *User) SetPhone(phone *string) {
 }
 
 func (u *User) SetBirthday(birthday *string) error {
-	if birthday == nil {
+	if birthday == nil || *birthday == "" {
 		u.Birthday = nil
 		return nil
 	}
