@@ -51,6 +51,7 @@ message RegisterRequest {
 message RegisterResponse {
     bool ok = 1;
     string message = 2;
+    string uuid = 3;
 }
 
 message TokenRequest {
@@ -77,6 +78,7 @@ message VerifyResponse {
     string email = 2;
     string name = 3;
     int64 exp = 4;
+    string uuid = 5;
 }
 
 message FetchListRequest {

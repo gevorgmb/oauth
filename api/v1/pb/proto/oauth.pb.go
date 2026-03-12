@@ -239,6 +239,7 @@ type RegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Uuid          string                 `protobuf:"bytes,3,opt,name=uuid,proto3" json:"uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -283,6 +284,13 @@ func (x *RegisterResponse) GetOk() bool {
 func (x *RegisterResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
+	}
+	return ""
+}
+
+func (x *RegisterResponse) GetUuid() string {
+	if x != nil {
+		return x.Uuid
 	}
 	return ""
 }
@@ -493,6 +501,7 @@ type VerifyResponse struct {
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Exp           int64                  `protobuf:"varint,4,opt,name=exp,proto3" json:"exp,omitempty"`
+	Uuid          string                 `protobuf:"bytes,5,opt,name=uuid,proto3" json:"uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -553,6 +562,13 @@ func (x *VerifyResponse) GetExp() int64 {
 		return x.Exp
 	}
 	return 0
+}
+
+func (x *VerifyResponse) GetUuid() string {
+	if x != nil {
+		return x.Uuid
+	}
+	return ""
 }
 
 type FetchListRequest struct {
@@ -807,10 +823,11 @@ const file_proto_oauth_proto_rawDesc = "" +
 	"\x05phone\x18\x04 \x01(\tH\x00R\x05phone\x88\x01\x01\x12\x1f\n" +
 	"\bbirthday\x18\x05 \x01(\tH\x01R\bbirthday\x88\x01\x01B\b\n" +
 	"\x06_phoneB\v\n" +
-	"\t_birthday\"<\n" +
+	"\t_birthday\"P\n" +
 	"\x10RegisterResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"@\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x12\n" +
+	"\x04uuid\x18\x03 \x01(\tR\x04uuid\"@\n" +
 	"\fTokenRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"v\n" +
@@ -822,12 +839,13 @@ const file_proto_oauth_proto_rawDesc = "" +
 	"\x0eRefreshRequest\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"2\n" +
 	"\rVerifyRequest\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"b\n" +
+	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"v\n" +
 	"\x0eVerifyResponse\x12\x14\n" +
 	"\x05valid\x18\x01 \x01(\bR\x05valid\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x10\n" +
-	"\x03exp\x18\x04 \x01(\x03R\x03exp\"\x90\x01\n" +
+	"\x03exp\x18\x04 \x01(\x03R\x03exp\x12\x12\n" +
+	"\x04uuid\x18\x05 \x01(\tR\x04uuid\"\x90\x01\n" +
 	"\x10FetchListRequest\x12\x16\n" +
 	"\x06filter\x18\x01 \x01(\tR\x06filter\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1f\n" +

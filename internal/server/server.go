@@ -61,7 +61,7 @@ func (s *oauthServer) Register(ctx context.Context, req *pb.RegisterRequest) (*p
 			Message: err.Error(),
 		}, nil
 	}
-	return &pb.RegisterResponse{Ok: true, Message: "created"}, nil
+	return &pb.RegisterResponse{Ok: true, Message: "created", Uuid: user.Uuid}, nil
 }
 
 func (s *oauthServer) Token(ctx context.Context, req *pb.TokenRequest) (*pb.TokenResponse, error) {
@@ -72,11 +72,11 @@ func (s *oauthServer) Token(ctx context.Context, req *pb.TokenRequest) (*pb.Toke
 	if err := bcrypt.CompareHashAndPassword(u.PasswordHash, []byte(req.Password)); err != nil {
 		return nil, err
 	}
-	access, exp, err := s.jwtManager.GenerateAccessToken(u.Email, u.Role, u.FullName)
+	access, exp, err := s.jwtManager.GenerateAccessToken(u.Email, u.Uuid, u.Role, u.FullName)
 	if err != nil {
 		return nil, err
 	}
-	refresh, _, err := s.jwtManager.GenerateRefreshToken(u.Email, u.Role)
+	refresh, _, err := s.jwtManager.GenerateRefreshToken(u.Email, u.Uuid, u.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -96,14 +96,15 @@ func (s *oauthServer) Refresh(ctx context.Context, req *pb.RefreshRequest) (*pb.
 		return nil, errors.New("not a refresh token")
 	}
 	sub, _ := claims["sub"].(string)
+	uuid, _ := claims["uuid"].(string)
 	role, _ := claims["role"].(string)
 	name, _ := claims["name"].(string)
-	access, exp, err := s.jwtManager.GenerateAccessToken(sub, role, name)
+	access, exp, err := s.jwtManager.GenerateAccessToken(sub, uuid, role, name)
 	if err != nil {
 		return nil, err
 	}
 
-	refresh, _, err := s.jwtManager.GenerateRefreshToken(sub, role)
+	refresh, _, err := s.jwtManager.GenerateRefreshToken(sub, uuid, role)
 	if err != nil {
 		return nil, err
 	}
@@ -127,11 +128,13 @@ func (s *oauthServer) Verify(ctx context.Context, req *pb.VerifyRequest) (*pb.Ve
 	sub, _ := claims["sub"].(string)
 	expF, _ := claims["exp"].(float64)
 	name, _ := claims["name"].(string)
+	uuid, _ := claims["uuid"].(string)
 	return &pb.VerifyResponse{
 		Valid: true,
 		Email: sub,
 		Name:  name,
 		Exp:   int64(expF),
+		Uuid:  uuid,
 	}, nil
 }
 
