@@ -4,11 +4,13 @@ import (
 	"errors"
 	"time"
 
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
 	Id           int64
+	Uuid         string
 	Email        string
 	PasswordHash []byte
 	FullName     string
@@ -27,6 +29,7 @@ func NewUser(email string, password string) (*User, error) {
 		return &User{}, err
 	}
 	return &User{
+		Uuid:         uuid.New().String(),
 		Email:        email,
 		PasswordHash: hash,
 	}, nil

@@ -42,7 +42,8 @@ func (s *MySQL) AddUser(user *entity.User) error {
 		birthday = &bday
 	}
 	_, err := s.db.Exec(
-		`INSERT INTO users (email, full_name, password_hash, phone, birthday) VALUES (?, ?, ?, ?, ?)`,
+		`INSERT INTO users (uuid, email, full_name, password_hash, phone, birthday) VALUES (?, ?, ?, ?, ?, ?)`,
+		user.Uuid,
 		user.Email,
 		user.FullName,
 		user.PasswordHash,
@@ -59,9 +60,9 @@ func (s *MySQL) AddUser(user *entity.User) error {
 }
 
 func (s *MySQL) GetUser(email string) (*entity.User, error) {
-	row := s.db.QueryRow(`SELECT email, full_name, password_hash, phone, birthday, role, created FROM users WHERE email = ?`, email)
+	row := s.db.QueryRow(`SELECT uuid, email, full_name, password_hash, phone, birthday, role, created FROM users WHERE email = ?`, email)
 	u := &entity.User{}
-	if err := row.Scan(&u.Email, &u.FullName, &u.PasswordHash, &u.Phone, &u.Birthday, &u.Role, &u.Created); err != nil {
+	if err := row.Scan(&u.Uuid, &u.Email, &u.FullName, &u.PasswordHash, &u.Phone, &u.Birthday, &u.Role, &u.Created); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, err
 		}
@@ -71,7 +72,7 @@ func (s *MySQL) GetUser(email string) (*entity.User, error) {
 }
 
 func (s *MySQL) GetUserList(limit int64, offset int64) ([]entity.User, int64, error) {
-	queryString := "SELECT id, email, full_name, phone, birthday, created, role FROM users"
+	queryString := "SELECT id, uuid, email, full_name, phone, birthday, created, role FROM users"
 	condition := ""
 	//ToDo: add condition from filters
 	// fetchQuery := queryString + condition + " LIMIT ? OFFSET ?"
@@ -89,7 +90,7 @@ func (s *MySQL) GetUserList(limit int64, offset int64) ([]entity.User, int64, er
 	var users []entity.User
 	for rows.Next() {
 		var u entity.User
-		if err := rows.Scan(&u.Id, &u.Email, &u.FullName, &u.Phone, &u.Birthday, &u.Created, &u.Role); err != nil {
+		if err := rows.Scan(&u.Id, &u.Uuid, &u.Email, &u.FullName, &u.Phone, &u.Birthday, &u.Created, &u.Role); err != nil {
 			log.Fatal(err)
 		}
 		users = append(users, u)
