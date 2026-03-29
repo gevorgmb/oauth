@@ -76,7 +76,7 @@ func (s *oauthServer) Token(ctx context.Context, req *pb.TokenRequest) (*pb.Toke
 	if err != nil {
 		return nil, err
 	}
-	refresh, _, err := s.jwtManager.GenerateRefreshToken(u.Email, u.Uuid, u.Role)
+	refresh, _, err := s.jwtManager.GenerateRefreshToken(u.Email, u.Uuid, u.Role, u.FullName)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (s *oauthServer) Refresh(ctx context.Context, req *pb.RefreshRequest) (*pb.
 		return nil, err
 	}
 
-	refresh, _, err := s.jwtManager.GenerateRefreshToken(sub, uuid, role)
+	refresh, _, err := s.jwtManager.GenerateRefreshToken(sub, uuid, role, name)
 	if err != nil {
 		return nil, err
 	}
